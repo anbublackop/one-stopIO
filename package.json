@@ -1,0 +1,52 @@
+{
+  "name": "training-management-system",
+  "version": "0.0.1",
+  "description": "A Management system that automates some of the daily process during trainings",
+  "main": "server.js",
+  "scripts": {
+    "start": "forever start server.js",
+    "stop": "forever stop server.js",
+    "restart": "forever restart server.js",
+    "debug": "node-debug server.js",
+    "preinstall": "npm install -g forever nodemon"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.10.1",
+    "babel-core": "*",
+    "babel-plugin-transform-promise-to-bluebird": "^1.1.1",
+    "babel-polyfill": "^6.9.1",
+    "babel-preset-es2015-node5": "*",
+    "babel-preset-stage-3": "*"
+  },
+  "dependencies": {
+    "async": "^2.0.1",
+    "bluebird": "^3.4.7",
+    "body-parser": "^1.15.2",
+    "config": "^1.21.0",
+    "express": "^4.14.0",
+    "lodash": "^4.17.2",
+    "method-override": "^2.3.6",
+    "mongoose": "^4.7.6",
+    "morgan": "^1.7.0",
+    "request": "^2.79.0",
+    "winston": "^2.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://devanshug@bitbucket.org/ketanTechracers/training-automation-jun17.git"
+  },
+  "keywords": [
+    "training",
+    "automation"
+  ],
+  "author": "Devanshu Gupta",
+  "contributors": [
+    "Ketan Saxena <ksaxena@grepruby.com>",
+    "Vinay Mishra <vmishra@grepruby.com>",
+    "Shiv Pratap Singh <spsingh@grepruby.com>",
+    "Ayush Tiwari <atiwari@grepruby.com>",
+    "Ankit Gupta <agupta@grepruby.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/ketanTechracers/training-automation-jun17#readme"
+}

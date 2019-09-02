@@ -1,3 +1,3 @@
-import Plan from './plan';
+import User from './user';
 
-export { Plan };
+export { User };

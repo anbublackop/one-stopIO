@@ -1,3 +1,3 @@
-import PlanController from './planController';
+import UserController from './userController';
 
-export { PlanController };
+export { UserController };

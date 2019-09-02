@@ -1,7 +1,7 @@
-import initPlanRoutes from './planRoutes';
+import initUserRoutes from './userRoutes';
 
-const initRoutes = (app) => {
-  app.use(`/foos`, initPlanRoutes());
+const userRoutes = (app) => {
+  app.use(`/user`, initUserRoutes());
 };
 
-export default initRoutes;
+export default initUserRoutes;

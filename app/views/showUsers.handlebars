@@ -1,0 +1,22 @@
+<table>
+	<thead>
+		<tr>
+			<th>Username</th>
+			<th>Password</th>
+			<th>FullName</th>
+			<th>Email</th>
+			<th>MyCodes</th>
+		</tr>
+	</thead>
+	<tbody>
+		{{#each list}}
+		<tr>
+			<td>{{this.Username}}</td>
+			<td>{{this.Password}}</td>
+			<td>{{this.FullName}}</td>
+			<td>{{this.Email}}</td>
+			<td>{{this.MyCodes}}</td>
+		</tr>
+		{{/each}}
+	</tbody>
+</table>

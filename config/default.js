@@ -14,13 +14,11 @@ module.exports = {
   },
 
   db: {
-    uri: `mongodb://localhost:45123/training`,
-    options: {
-      user: 'mishti',
-      pass: 'doi',
-      server: { poolSize: 40 },
-      replset: { poolSize: 40 }
-    },
-    debug: false
+    uri: 'mongodb+srv://root:tiger@oauth-database-vfzst.mongodb.net/test?retryWrites=true&w=majority', 
   },
+  
+	session: {
+		cookieKey: 'thisisarandomstring'
+  }
+  
 };

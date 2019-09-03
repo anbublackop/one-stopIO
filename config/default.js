@@ -3,7 +3,7 @@ import packageJSON from '../package.json';
 module.exports = {
   app: {
     version: packageJSON.version,
-    title: 'Techracers Traning Management System',
+    title: 'One-Stop I/O',
     description: packageJSON.description
   },
 

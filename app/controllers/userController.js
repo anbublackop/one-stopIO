@@ -7,7 +7,7 @@ export default class UserController {
     // getFromDB
     // .then(plans => Responder.success(res, plans))
     // .catch(errorOnDBOp => Responder.operationFailed(res, errorOnDBOp));
-    res.send('This is index page');
+    res.send('This is user index page');
   }
 
   static login(req, res) {

@@ -1,103 +1,22 @@
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<!-- Include the above in your HEAD tag -->
-<h1 align="center">Register Yourself</h1>
-
-<form action="/user/register" method="POST">
-  <label>
-    <input type="text" id="username" name="username" placeholder="Username">
-  </label>
-  <label>
-    <input type="text" id="password" name="password" placeholder="Password">
-  </label>
-  <label>
-    <input type="text" id="fullName" name="fullName" placeholder="Full Name">
-  </label>
-  <label>
-    <input type="text" id="email" name="email" placeholder="Email ID">
-  </label>
-  <button type="submit">submit</button>
+<form action="/user/registration" method="POST">
+	<div style="text-align: center; width: 500px ">
+		<div class="form-group; display: inline-block">
+			<label>Full Name</label>
+			<input type="text" class="form-control" id="fullname" placeholder="Enter Full Name" name="fullname">
+		</div>
+		<div class="form-group">
+			<label>User Name</label>
+			<input type="text" class="form-control" id="username" placeholder="Enter User Name" name="username">
+		</div>
+		<div class="form-group">
+			<label>Password</label>
+			<input type="text" class="form-control" id="password" placeholder="Enter User Password" name="password">
+		</div>
+		<div class="form-group">
+			<label>Email</label>
+			<input type="text" class="form-control" id="email" placeholder="Enter User Email" name="email">
+			<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+		</div>
+		<button type="submit" class="btn btn-primary">Submit</button>
+	</div>
 </form>
-
-<style>
-body {
-  background: #C5E1A5;
-}
-form {
-  width: 60%;
-  margin: 60px auto;
-  background: #efefef;
-  padding: 60px 120px 80px 120px;
-  text-align: center;
-  -webkit-box-shadow: 2px 2px 3px rgba(0,0,0,0.1);
-  box-shadow: 2px 2px 3px rgba(0,0,0,0.1);
-}
-label {
-  display: block;
-  position: relative;
-  margin: 40px 0px;
-}
-.label-txt {
-  position: absolute;
-  top: -1.6em;
-  padding: 10px;
-  font-family: sans-serif;
-  font-size: .8em;
-  letter-spacing: 1px;
-  color: rgb(120,120,120);
-  transition: ease .3s;
-}
-.input {
-  width: 100%;
-  padding: 10px;
-  background: transparent;
-  border: none;
-  outline: none;
-}
-
-.line-box {
-  position: relative;
-  width: 100%;
-  height: 2px;
-  background: #BCBCBC;
-}
-
-.line {
-  position: absolute;
-  width: 0%;
-  height: 2px;
-  top: 0px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #8BC34A;
-  transition: ease .6s;
-}
-
-.input:focus + .line-box .line {
-  width: 100%;
-}
-
-.label-active {
-  top: -3em;
-}
-
-button {
-  display: inline-block;
-  padding: 12px 24px;
-  background: rgb(220,220,220);
-  font-weight: bold;
-  color: rgb(120,120,120);
-  border: none;
-  outline: none;
-  border-radius: 3px;
-  cursor: pointer;
-  transition: ease .3s;
-}
-
-button:hover {
-  background: #8BC34A;
-  color: #ffffff;
-}
-
-</style>

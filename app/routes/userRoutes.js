@@ -6,10 +6,11 @@ const initUserRoutes = () => {
   userRoutes.get('/', UserController.page);
   userRoutes.get('/login', UserController.login);
   userRoutes.get('/logout', UserController.logout);
-  userRoutes.get('/register', UserController.register);
-  userRoutes.post('/loggingIn', UserController.postLogin);
-  userRoutes.post('/registration', UserController.registration);
   userRoutes.get('/showAll', UserController.showAll);
+  userRoutes.get('/register', UserController.register);
+  userRoutes.post('/loggingIn', UserController.loggingIn);
+  userRoutes.post('/compile_and_run', UserController.compile);
+  userRoutes.post('/registration', UserController.registration);
   return userRoutes;
 };
 

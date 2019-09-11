@@ -4,4 +4,4 @@ const userRoutes = (app) => {
   app.use(`/user`, initUserRoutes());
 };
 
-export default initUserRoutes;
+export default userRoutes;

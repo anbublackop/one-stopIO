@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+	<title>One-stop I/O</title>
+	<style type="text/css" media="screen">
+		#editor {
+			position: absolute;
+			top: 7.5%;
+			right: 0;
+			bottom: 40%;
+			left: 0;
+		}
+	</style>
+</head>
+
+<body>
+
+<form action="/user/compile" method="POST">
+	<div id="editor">function foo(items) {
+		let x = "All this is syntax highlighted";
+		return x;
+		}</div>
+
+	<div class="container-fluid" style="position:relative; top:55%; background-color:#efefef; padding:10px">
+		<span>
+			<textarea rows="6" cols="50" class="card-body" style="border-radius:10px"> 
+			</textarea>
+		</span>
+		<span>
+			<textarea rows="6" cols="50" class="card-body" style="border-radius:10px">
+			</textarea>
+		</span>		
+		<button type="button" class="btn btn-success">Submit</button>
+		<button type="button" class="btn btn-info">Reset</button>
+		<div class="btn-group dropup">
+		<button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false">
+			Choose Language
+		</button>
+			<div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left" style="overflow:auto;height:600px">
+				<button class="dropdown-item" type="button" value="java">Java</button>
+				<button class="dropdown-item" type="button" value="java">Java (Advanced)</button>
+				<button class="dropdown-item" type="button" value="c">C</button>
+				<button class="dropdown-item" type="button" value="cpp">C++</button>
+				<button class="dropdown-item" type="button" value="cpp14">C++14</button>
+				<button class="dropdown-item" type="button" value="c99">C99</button>
+				<button class="dropdown-item" type="button" value="csharp">C#</button>
+				<button class="dropdown-item" type="button" value="php">PHP</button>
+				<button class="dropdown-item" type="button" value="perl">Perl</button>
+				<button class="dropdown-item" type="button" value="ruby">Ruby</button>
+				<button class="dropdown-item" type="button" value="python2">Python2</button>
+				<button class="dropdown-item" type="button" value="python3">Python3</button>
+				<button class="dropdown-item" type="button" value="sql">SQL</button>
+				<button class="dropdown-item" type="button" value="scala">Scala</button>
+				<button class="dropdown-item" type="button" value="vbn">VB.Net</button>
+				<button class="dropdown-item" type="button" value="pascal">Pascal</button>
+				<button class="dropdown-item" type="button" value="haskell">Haskell</button>
+				<button class="dropdown-item" type="button" value="kotlin">Kotlin</button>
+				<button class="dropdown-item" type="button" value="swift">Swift</button>
+				<button class="dropdown-item" type="button" value="objc">Objective-C</button>
+				<button class="dropdown-item" type="button" value="groovy">Groovy</button>
+				<button class="dropdown-item" type="button" value="fortran">Fortran</button>
+				<button class="dropdown-item" type="button" value="brainfuck">Brainf**k</button>
+				<button class="dropdown-item" type="button" value="hack">Hack</button>
+				<button class="dropdown-item" type="button" value="tcl">TCL</button>
+				<button class="dropdown-item" type="button" value="lua">Lua</button>
+				<button class="dropdown-item" type="button" value="rust">Rust</button>
+				<button class="dropdown-item" type="button" value="fsharp">F#</button>
+				<button class="dropdown-item" type="button" value="ada">Ada</button>
+				<button class="dropdown-item" type="button" value="d">D</button>
+				<button class="dropdown-item" type="button" value="yabasic">YaBasic</button>
+				<button class="dropdown-item" type="button" value="freebasic">Free Basic</button>
+				<button class="dropdown-item" type="button" value="clojure">Clojure</button>
+				<button class="dropdown-item" type="button" value="verilog">Verilog</button>
+				<button class="dropdown-item" type="button" value="nodejs">NodeJS</button>
+				<button class="dropdown-item" type="button" value="scheme">Scheme</button>
+				<button class="dropdown-item" type="button" value="forth">Forth</button>
+				<button class="dropdown-item" type="button" value="prolog">Prolog</button>
+				<button class="dropdown-item" type="button" value="bash">Bash</button>
+				<button class="dropdown-item" type="button" value="cobol">COBOL</button>
+				<button class="dropdown-item" type="button">OCTAVE/Matlab</button>
+				<button class="dropdown-item" type="button">Icon</button>
+				<button class="dropdown-item" type="button">CoffeeScript</button>
+				<button class="dropdown-item" type="button">Assembler (GCC)</button>
+				<button class="dropdown-item" type="button">R</button>
+				<button class="dropdown-item" type="button">Assembler (NASM)</button>
+				<button class="dropdown-item" type="button">Intercal</button>
+				<button class="dropdown-item" type="button">Nemerle</button>
+				<button class="dropdown-item" type="button">Ocaml</button>
+				<button class="dropdown-item" type="button">Unlambda</button>
+				<button class="dropdown-item" type="button">Picolisp</button>
+				<button class="dropdown-item" type="button">CLISP</button>
+				<button class="dropdown-item" type="button">Elixir</button>
+				<button class="dropdown-item" type="button">SpiderMonkey</button>
+				<button class="dropdown-item" type="button">Rhino JS</button>
+				<button class="dropdown-item" type="button">BC</button>
+				<button class="dropdown-item" type="button">Nim</button>
+				<button class="dropdown-item" type="button">Factor</button>
+				<button class="dropdown-item" type="button">Falcon
+				<button class="dropdown-item" type="button">Fantom
+				<button class="dropdown-item" type="button">Pike</button>
+				<button class="dropdown-item" type="button">Go</button>
+				<button class="dropdown-item" type="button">OZ-Mozart</button>
+				<button class="dropdown-item" type="button">LOLCODE</button>
+				<button class="dropdown-item" type="button">Racket</button>
+				<button class="dropdown-item" type="button">SmallTalk</button>
+				<button class="dropdown-item" type="button">Whitespace</button>
+			</div>
+		</div>
+	</div>
+</form>
+
+{{!-- <script src="/public/editor.js" type="text/javascript"></script> --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.5/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+	let editor = ace.edit("editor");
+	editor.setTheme("ace/theme/textmate");
+	editor.session.setMode("ace/mode/javascript");
+</script>
+
+</body>
+
+</html>

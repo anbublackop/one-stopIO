@@ -1,18 +1,21 @@
 import Responder from '../../lib/expressResponder';
-import User from '../models/user';
+import { User, Code } from '../models/index';
 import session from 'express-session';
+import request from 'request';
 
 export default class UserController {
+
   static page(req, res) {
     // getFromDB
     // .then(plans => Responder.success(res, plans))
     // .catch(errorOnDBOp => Responder.operationFailed(res, errorOnDBOp));
-    res.send('This is user index page');
+    // Responder.success(res, 'This is home page');
+    res.render('editor');
   }
 
   static login(req, res) {
     if (req.session.user)
-      res.render('protected_page');
+      res.send('Already logged In');
     else
       res.render('login');
   }
@@ -22,6 +25,13 @@ export default class UserController {
       console.log("user logged out.")
     });
     res.render('login');
+  }
+
+  static register(req, res) {
+    if (req.session.user)
+      res.send('This is home');
+    else
+      res.render('register');
   }
 
   static loggingIn(req, res) {
@@ -39,9 +49,24 @@ export default class UserController {
     });
   }
 
+  static myCodes(req, res) {
+    userid = req.query.userid;
+    if (req.session.user) {
+      if (req.session.user.userid === userid) {
+        res.send("Access granted to view the page!");
+      }
+      else {
+        res.send("You are not allowed to view this page!");
+      }
+    }
+    else {
+      res.send("Please login to continue!");
+    }
+  }
+
   static registration(req, res) {
-    let { username, fullName, email, password } = req.body;
-    if (!username || !password || !fullName || !email) {
+    let { username, fullname, email, password } = req.body;
+    if (!username || !password || !fullname || !email) {
       res.status("400");
       res.send("Invalid details!");
     }
@@ -62,7 +87,7 @@ export default class UserController {
     }
   }
 
-  static showALl(req, res) {
+  static showAll(req, res) {
     User.find((err, docs) => {
       if (!err) {
         res.render('showUsers', {
@@ -74,10 +99,67 @@ export default class UserController {
       }
     });
   }
+
+  static compile(req, res) {
+    
+    const host = "https://api.jdoodle.com/v1/execute";
+    const data = {
+      'clientSecret': '4a941cc902adaca23c1e67330856b697726c68f84c5a88ccd1bf5c4cb7568ea3',
+      'clientId': 'ac4680b2f667cd4864a60e9d5cd4d18f',
+      'script': 'print (1+2+3)',
+      'stdin': '',
+      'language': "python3",
+      'versionIndex': '2'
+    }
+    function responseFunction() {
+      return new Promise((resolve, reject) => {
+        request.post(host, { json: data }, (error, res, body) => {
+          if (error) {
+            reject(error);
+          }
+          resolve(body);
+        });
+      });
+    }
+
+    const returnedData = async () => {
+      const response = await responseFunction();
+      return response;
+    }
+    
+    return returnedData();
+  }
 }
+
+// async function basicAuth(req, res, next) {
+//   // make authenticate path public
+//   if (req.path === '/users/authenticate') {
+//     return next();
+//   }
+
+//   // check for basic auth header
+//   if (!req.headers.authorization || req.headers.authorization.indexOf('Basic ') === -1) {
+//     return res.status(401).json({ message: 'Missing Authorization Header' });
+//   }
+
+//   // verify auth credentials
+//   const base64Credentials =  req.headers.authorization.split(' ')[1];
+//   const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
+//   const [username, password] = credentials.split(':');
+//   const user = await userService.authenticate({ username, password });
+//   if (!user) {
+//     return res.status(401).json({ message: 'Invalid Authentication Credentials' });
+//   }
+
+//   // attach user to request object
+//   req.user = user
+
+//   next();
+// }
 
 const insertRecord = (res, username, fullName, email, password) => {
   let user = new User();
+  user.Id = user._id;
   user.Username = username;
   user.FullName = fullName;
   user.Email = email;

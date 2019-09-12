@@ -1,4 +1,3 @@
-import User from './user';
-import Code from './user';
+import { User, Code } from './user';
 
 export { User, Code };

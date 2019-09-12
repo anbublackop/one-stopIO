@@ -2,16 +2,16 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  Id: Number,
-  Username: String,
-  Password: String,
-  FullName: String,
-  Email: String,
-  GoogleId: String,
+  Id: { type: Number, default: '_id' },
+  Username: { type: String, trim: true },
+  Password: { type: String, trim: true },
+  FullName: { type: String, trim: true },
+  Email: { type: String, trim: true },
+  GoogleId: { type: String, trim: true },
 });
 
 const codeSchema = new Schema({
-    Id: Number,
+    Id: { type: Number, default: '_id' },
     UserId: Number,
     Body: String,
     Language: String,
@@ -28,27 +28,6 @@ const codeSchema = new Schema({
 const User = mongoose.model('User', userSchema);
 const Code = mongoose.model('Code', codeSchema);
 
-// Id: Integer,
-// 	->Full name: String,
-// 	->Email: String,
-// 	->Username: String,
-// 	->Password: String,
-// 	->Preferred language: String,
-// 	->My Codes: Object {
-// 				-> Id: Integer,
-// 				-> UserId: Integer,
-// 				-> Body: String,
-// 				-> Language: String,
-// 				-> Key: String,
-// 				-> Created On: Date,
-// 				-> Modified On: Date,
-// 				-> Link: String,
-// 				-> SharedWith: Object {
-// 							-> UserId: Integer,
-// 							-> Username: String,
-// 							-> SharedOn: Date,
-//    }
-// }
-
-export { User, Code };
+module.exports.User = User;
+module.exports.Code = Code;
 

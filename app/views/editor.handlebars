@@ -18,107 +18,136 @@
 </head>
 
 <body>
+		<form>
+			<div id="editor" name="body" value=>function foo(items) {
+			let x = "All this is syntax highlighted";
+			return x;
+			}</div>
 
-
-	<div id="editor">function foo(items) {
-		let x = "All this is syntax highlighted";
-		return x;
-		}</div>
-
-	<div class="container-fluid" style="position:relative; top:55%; background-color:#efefef; padding:10px">
+		<h4 style="position:absolute; top:62%">Standard Input</h4>
 		<span>
-			<textarea rows="6" cols="50" class="card-body" style="border-radius:10px"> 
+			<textarea name="stdin" rows="6" cols="50" class="card-body" style="border-radius:10px; position:absolute; top:68%"> 
 			</textarea>
 		</span>
+						
+		<button type="submit" style="position:absolute; top:68%; left:525px" class="btn btn-success">Submit</button>
+
+		<button type="button" style="position:absolute; top:74%; left:525px" class="btn btn-info">Reset</button>
+
+		<h4 style="position:absolute; top:80%; left:525px">Choose Language</h4>
+		<select class="btn btn-dark" onchange="changeHighlighter(this.value);" style="position:absolute; top:85%; left:525px" id="select" name="language" type="button" data-toggle="dropdown">
+			<option class="btn btn-light" type="button" value="java">Java</option>
+			<option class="btn btn-light" type="button" value="java">Java (Advanced)</option>
+			<option class="btn btn-light" type="button" value="c">C</option>
+			<option class="btn btn-light" type="button" value="cpp">C++</option>
+			<option class="btn btn-light" type="button" value="cpp14">C++14</option>
+			<option class="btn btn-light" type="button" value="c99">C99</option>
+			<option class="btn btn-light" type="button" value="csharp">C#</option>
+			<option class="btn btn-light" type="button" value="php">PHP</option>
+			<option class="btn btn-light" type="button" value="perl">Perl</option>
+			<option class="btn btn-light" type="button" value="ruby">Ruby</option>
+			<option class="btn btn-light" type="button" value="python2">Python2</option>
+			<option class="btn btn-light" type="button" value="python3">Python3</option>
+			<option class="btn btn-light" type="button" value="sql">SQL</option>
+			<option class="btn btn-light" type="button" value="scala">Scala</option>
+			<option class="btn btn-light" type="button" value="vbn">VB.Net</option>
+			<option class="btn btn-light" type="button" value="pascal">Pascal</option>
+			<option class="btn btn-light" type="button" value="haskell">Haskell</option>
+			<option class="btn btn-light" type="button" value="kotlin">Kotlin</option>
+			<option class="btn btn-light" type="button" value="swift">Swift</option>
+			<option class="btn btn-light" type="button" value="objc">Objective-C</option>
+			<option class="btn btn-light" type="button" value="groovy">Groovy</option>
+			<option class="btn btn-light" type="button" value="fortran">Fortran</option>
+			<option class="btn btn-light" type="button" value="brainfuck">Brainf**k</option>
+			<option class="btn btn-light" type="button" value="hack">Hack</option>
+			<option class="btn btn-light" type="button" value="tcl">TCL</option>
+			<option class="btn btn-light" type="button" value="lua">Lua</option>
+			<option class="btn btn-light" type="button" value="rust">Rust</option>
+			<option class="btn btn-light" type="button" value="fsharp">F#</option>
+			<option class="btn btn-light" type="button" value="ada">Ada</option>
+			<option class="btn btn-light" type="button" value="d">D</option>
+			<option class="btn btn-light" type="button" value="yabasic">YaBasic</option>
+			<option class="btn btn-light" type="button" value="freebasic">Free Basic</option>
+			<option class="btn btn-light" type="button" value="clojure">Clojure</option>
+			<option class="btn btn-light" type="button" value="verilog">Verilog</option>
+			<option class="btn btn-light" type="button" value="nodejs">NodeJS</option>
+			<option class="btn btn-light" type="button" value="scheme">Scheme</option>
+			<option class="btn btn-light" type="button" value="forth">Forth</option>
+			<option class="btn btn-light" type="button" value="prolog">Prolog</option>
+			<option class="btn btn-light" type="button" value="bash">Bash</option>
+			<option class="btn btn-light" type="button" value="cobol">COBOL</option>
+			<option class="btn btn-light" type="button" value="octave">OCTAVE/Matlab</option>
+			<option class="btn btn-light" type="button" value="icon">Icon</option>
+			<option class="btn btn-light" type="button" value="coffeescript">CoffeeScript</option>
+			<option class="btn btn-light" type="button" value="assembler">Assembler (GCC)</option>
+			<option class="btn btn-light" type="button" value="r">R</option>
+			<option class="btn btn-light" type="button" value="assembler">Assembler (NASM)</option>
+			<option class="btn btn-light" type="button" value="intercal">Intercal</option>
+			<option class="btn btn-light" type="button" value="nemerle">Nemerle</option>
+			<option class="btn btn-light" type="button" value="ocaml">Ocaml</option>
+			<option class="btn btn-light" type="button" value="unlambda">Unlambda</option>
+			<option class="btn btn-light" type="button" value="picolisp">Picolisp</option>
+			<option class="btn btn-light" type="button" value="clisp">CLISP</option>
+			<option class="btn btn-light" type="button" value="elixir">Elixir</option>
+			<option class="btn btn-light" type="button" value="spidermonkey">SpiderMonkey</option>
+			<option class="btn btn-light" type="button" value="rhino">Rhino JS</option>
+			<option class="btn btn-light" type="button" value="bc">BC</option>
+			<option class="btn btn-light" type="button" value="nim">Nim</option>
+			<option class="btn btn-light" type="button" value="factor">Factor</option>
+			<option class="btn btn-light" type="button" value="falcon">Falcon</option>
+			<option class="btn btn-light" type="button" value="fantom">Fantom</option>
+			<option class="btn btn-light" type="button" value="pike">Pike</option>
+			<option class="btn btn-light" type="button" value="go">Go</option>
+			<option class="btn btn-light" type="button" value="mozart">OZ-Mozart</option>
+			<option class="btn btn-light" type="button" value="lolcode">LOLCODE</option>
+			<option class="btn btn-light" type="button" value="racket">Racket</option>
+			<option class="btn btn-light" type="button" value="smalltalk">SmallTalk</option>
+			<option class="btn btn-light" type="button" value="whitespace">Whitespace</option>
+		</select>
 		<span>
-			<textarea rows="6" cols="50" class="card-body" style="border-radius:10px">
-			</textarea>
-		</span>		
-		<button type="button" class="btn btn-success">Submit</button>
-		<button type="button" class="btn btn-info">Reset</button>
-		<div class="btn-group dropup">
-		<button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false">
-			Choose Language
-		</button>
-			<div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left" style="overflow:auto;height:600px">
-				<button class="dropdown-item" type="button" value="java">Java</button>
-				<button class="dropdown-item" type="button" value="java">Java (Advanced)</button>
-				<button class="dropdown-item" type="button" value="c">C</button>
-				<button class="dropdown-item" type="button" value="cpp">C++</button>
-				<button class="dropdown-item" type="button" value="cpp14">C++14</button>
-				<button class="dropdown-item" type="button" value="c99">C99</button>
-				<button class="dropdown-item" type="button" value="csharp">C#</button>
-				<button class="dropdown-item" type="button" value="php">PHP</button>
-				<button class="dropdown-item" type="button" value="perl">Perl</button>
-				<button class="dropdown-item" type="button" value="ruby">Ruby</button>
-				<button class="dropdown-item" type="button" value="python2">Python2</button>
-				<button class="dropdown-item" type="button" value="python3">Python3</button>
-				<button class="dropdown-item" type="button" value="sql">SQL</button>
-				<button class="dropdown-item" type="button" value="scala">Scala</button>
-				<button class="dropdown-item" type="button" value="vbn">VB.Net</button>
-				<button class="dropdown-item" type="button" value="pascal">Pascal</button>
-				<button class="dropdown-item" type="button" value="haskell">Haskell</button>
-				<button class="dropdown-item" type="button" value="kotlin">Kotlin</button>
-				<button class="dropdown-item" type="button" value="swift">Swift</button>
-				<button class="dropdown-item" type="button" value="objc">Objective-C</button>
-				<button class="dropdown-item" type="button" value="groovy">Groovy</button>
-				<button class="dropdown-item" type="button" value="fortran">Fortran</button>
-				<button class="dropdown-item" type="button" value="brainfuck">Brainf**k</button>
-				<button class="dropdown-item" type="button" value="hack">Hack</button>
-				<button class="dropdown-item" type="button" value="tcl">TCL</button>
-				<button class="dropdown-item" type="button" value="lua">Lua</button>
-				<button class="dropdown-item" type="button" value="rust">Rust</button>
-				<button class="dropdown-item" type="button" value="fsharp">F#</button>
-				<button class="dropdown-item" type="button" value="ada">Ada</button>
-				<button class="dropdown-item" type="button" value="d">D</button>
-				<button class="dropdown-item" type="button" value="yabasic">YaBasic</button>
-				<button class="dropdown-item" type="button" value="freebasic">Free Basic</button>
-				<button class="dropdown-item" type="button" value="clojure">Clojure</button>
-				<button class="dropdown-item" type="button" value="verilog">Verilog</button>
-				<button class="dropdown-item" type="button" value="nodejs">NodeJS</button>
-				<button class="dropdown-item" type="button" value="scheme">Scheme</button>
-				<button class="dropdown-item" type="button" value="forth">Forth</button>
-				<button class="dropdown-item" type="button" value="prolog">Prolog</button>
-				<button class="dropdown-item" type="button" value="bash">Bash</button>
-				<button class="dropdown-item" type="button" value="cobol">COBOL</button>
-				<button class="dropdown-item" type="button" value="octave">OCTAVE/Matlab</button>
-				<button class="dropdown-item" type="button" value="icon">Icon</button>
-				<button class="dropdown-item" type="button" value="coffeescript">CoffeeScript</button>
-				<button class="dropdown-item" type="button" value="assembler">Assembler (GCC)</button>
-				<button class="dropdown-item" type="button" value="r">R</button>
-				<button class="dropdown-item" type="button" value="assembler">Assembler (NASM)</button>
-				<button class="dropdown-item" type="button" value="intercal">Intercal</button>
-				<button class="dropdown-item" type="button" value="nemerle">Nemerle</button>
-				<button class="dropdown-item" type="button" value="ocaml">Ocaml</button>
-				<button class="dropdown-item" type="button" value="unlambda">Unlambda</button>
-				<button class="dropdown-item" type="button" value="picolisp">Picolisp</button>
-				<button class="dropdown-item" type="button" value="clisp">CLISP</button>
-				<button class="dropdown-item" type="button" value="elixir">Elixir</button>
-				<button class="dropdown-item" type="button" value="spidermonkey">SpiderMonkey</button>
-				<button class="dropdown-item" type="button" value="rhino">Rhino JS</button>
-				<button class="dropdown-item" type="button" value="bc">BC</button>
-				<button class="dropdown-item" type="button" value="nim">Nim</button>
-				<button class="dropdown-item" type="button" value="factor">Factor</button>
-				<button class="dropdown-item" type="button" value="falcon">Falcon</button>
-				<button class="dropdown-item" type="button" value="fantom">Fantom</button>
-				<button class="dropdown-item" type="button" value="pike">Pike</button>
-				<button class="dropdown-item" type="button" value="go">Go</button>
-				<button class="dropdown-item" type="button" value="mozart">OZ-Mozart</button>
-				<button class="dropdown-item" type="button" value="lolcode">LOLCODE</button>
-				<button class="dropdown-item" type="button" value="racket">Racket</button>
-				<button class="dropdown-item" type="button" value="smalltalk">SmallTalk</button>
-				<button class="dropdown-item" type="button" value="whitespace">Whitespace</button>
+			<div id="outputbox" class="card-body" style="position:absolute; top:68%; left:900px">
+				This is output box
 			</div>
+		</span>
 		</div>
-	</div>
+	</form>	
 
 
 {{!-- <script src="/public/editor.js" type="text/javascript"></script> --}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.5/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="/public/editor.js" type="text/javascript" charset="utf-8"></script>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+<script>
+	$(function(){
+			$('form').on('submit', function(e){
+				$("#editor").val(editor.getSession().getValue());
+				e.preventDefault();
+				$.ajax({
+					type: 'post',
+					url: "/user/compile_and_run",
+					data: $('form').serialize()+"&body="+editor.getSession().getValue(),
+				}).done(function(data) {
+					console.log(data);
+					document.getElementById("outputbox").value = data['output'];
+					}
+				)
+			});
+		});
+</script>
+
+
 <script>
 	let editor = ace.edit("editor");
 	editor.setTheme("ace/theme/textmate");
-	editor.session.setMode("ace/mode/javascript");
+	editor.session.setMode("ace/mode/python");
+	
+	function changeHighlighter(val){
+		editor.session.setMode("ace/mode/"+val);
+	}
+
 </script>
 
 </body>

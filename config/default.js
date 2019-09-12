@@ -14,7 +14,8 @@ module.exports = {
   },
 
   db: {
-    uri: 'mongodb+srv://root:tiger@oauth-database-vfzst.mongodb.net/test?retryWrites=true&w=majority', 
+    uri: 'mongodb+srv://root:tiger@cluster0-vfzst.mongodb.net/test?retryWrites=true&w=majority', 
+    debug: true
   },
   
 	session: {

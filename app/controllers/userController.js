@@ -71,16 +71,29 @@ export default class UserController {
       res.send("Invalid details!");
     }
     else {
+      console.log("Hello World!!!!!!!!!!!!");
+      User.find((err, docs) => {
+        if (!err) {
+          console.log(docs);
+        }
+        else {
+          console.log("Error loading users!");
+        }
+      });
+      
       User.findOne({ Username: username }, (err, user) => {
         if (!err) {
           if (user) {
             console.log('Username not available! Please choose a different one');
+            res.status(405);
           }
           else {
-            insertRecord(res, username, fullName, email, password);
+            insertRecord(res, username, fullname, email, password);
+            res.status(201);
           }
         }
         else {
+          res.status(500);
           console.log("Something went wrong!");
         }
       });
@@ -88,6 +101,7 @@ export default class UserController {
   }
 
   static showAll(req, res) {
+    console.log(User);
     User.find((err, docs) => {
       if (!err) {
         res.render('showUsers', {
@@ -100,16 +114,18 @@ export default class UserController {
     });
   }
 
-  static compile(req, res) {
-    
+  static async compile(req, res) {
+  
     const host = "https://api.jdoodle.com/v1/execute";
+    const { language, body, stdin } = req.body;
+    console.log(req.body);
     const data = {
       'clientSecret': '4a941cc902adaca23c1e67330856b697726c68f84c5a88ccd1bf5c4cb7568ea3',
       'clientId': 'ac4680b2f667cd4864a60e9d5cd4d18f',
-      'script': 'print (1+2+3)',
-      'stdin': '',
-      'language': "python3",
-      'versionIndex': '2'
+      'script': body,
+      'stdin': stdin,
+      'language': language,
+      'versionIndex': '0'
     }
     function responseFunction() {
       return new Promise((resolve, reject) => {
@@ -121,13 +137,9 @@ export default class UserController {
         });
       });
     }
-
-    const returnedData = async () => {
-      const response = await responseFunction();
-      return response;
-    }
-    
-    return returnedData();
+  const result = await responseFunction();
+  console.log(result);
+  return result;
   }
 }
 
@@ -157,11 +169,11 @@ export default class UserController {
 //   next();
 // }
 
-const insertRecord = (res, username, fullName, email, password) => {
+const insertRecord = (res, username, fullname, email, password) => {
   let user = new User();
-  user.Id = user._id;
+  // user.Id = user._id;
   user.Username = username;
-  user.FullName = fullName;
+  user.FullName = fullname;
   user.Email = email;
   user.Password = password;
   user.save((err, doc) => {

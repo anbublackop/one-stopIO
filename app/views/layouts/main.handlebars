@@ -18,12 +18,21 @@
 	<div class="collapse navbar-collapse" id="navbarSupportedContent">
 		<form class="form-inline my-2 my-lg-0">
 			<ul class="navbar-nav mr-auto">
-				<li class="nav-item active">
-					<a class="nav-link" href="/user/register">Register<span class="sr-only"></span></a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="/user/login">Login</a>
-				</li>
+				{{#if req.session.user }}
+					<li class="nav-item active">
+						<a class="nav-link" href="/user/myCodes/">My Codes<span class="sr-only"></span></a>
+					</li>
+					<li class="nav-item active">
+						<a class="nav-link" href="/user/logout">Logout<span class="sr-only"></span></a>
+					</li>
+				{{else}}
+					<li class="nav-item active">
+						<a class="nav-link" href="/user/register">Register<span class="sr-only"></span></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/user/login">Login</a>
+					</li>
+				{{/if}}
 			</ul>
 		</form>
 	</div>

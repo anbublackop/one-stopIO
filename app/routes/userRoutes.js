@@ -7,6 +7,7 @@ const initUserRoutes = () => {
   userRoutes.get('/login', UserController.login);
   userRoutes.get('/logout', UserController.logout);
   userRoutes.get('/showAll', UserController.showAll);
+  userRoutes.get('/myCodes', UserController.myCodes);
   userRoutes.get('/register', UserController.register);
   userRoutes.post('/loggingIn', UserController.loggingIn);
   userRoutes.post('/compile_and_run', UserController.compile);

@@ -40,7 +40,7 @@ export default class UserController {
       if (user) {
         if (user.Password === password) {
           req.session.user = user;
-          res.render('protected_page');
+          res.render('editor', {req: req});
         }
       }
       else {
@@ -52,8 +52,9 @@ export default class UserController {
   static myCodes(req, res) {
     userid = req.query.userid;
     if (req.session.user) {
-      if (req.session.user.userid === userid) {
+      if (req.session.user._id.str === userid) {
         res.send("Access granted to view the page!");
+        // res.render('myCodes');
       }
       else {
         res.send("You are not allowed to view this page!");
@@ -71,24 +72,15 @@ export default class UserController {
       res.send("Invalid details!");
     }
     else {
-      console.log('Hello Console!!!!!!!!!!!!'); 
-      User.find((err, docs) => {
-        if (!err) {
-          console.log(docs);
-        }
-        else {
-          console.log("Error loading users!");
-        }
-      });
-      
       User.findOne({ Username: username }, (err, user) => {
+        console.log(err,user);
         if (!err) {
           if (user) {
-            console.log('Username not available! Please choose a different one');
             res.status(405);
+            res.send('Username not available! Please choose a different one');
           }
           else {
-            insertRecord(res, username, fullname, email, password);
+            insertUser(res, username, fullname, email, password);
             res.status(201);
           }
         }
@@ -115,10 +107,8 @@ export default class UserController {
   }
 
   static async compile(req, res) {
-  
     const host = "https://api.jdoodle.com/v1/execute";
     const { language, body, stdin } = req.body;
-    console.log(req.body);
     const data = {
       'clientSecret': '4a941cc902adaca23c1e67330856b697726c68f84c5a88ccd1bf5c4cb7568ea3',
       'clientId': 'ac4680b2f667cd4864a60e9d5cd4d18f',
@@ -137,9 +127,25 @@ export default class UserController {
         });
       });
     }
+    
+    const result = await responseFunction();
 
-  const result = await responseFunction();
-  res.send(result);
+    if (req.session.user){
+      let code = new Code();
+      code.userid=req.session.user._id.str;
+      code.Body=body; 
+      code.Language=language;
+      code.save((err, doc) => {
+        if (!err) {
+          res.redirect('/');
+        }
+        else {
+          console.log('Error while saving the code!');
+        }
+      });
+    }
+
+    res.send(result);
   }
 }
 
@@ -169,7 +175,7 @@ export default class UserController {
 //   next();
 // }
 
-const insertRecord = (res, username, fullname, email, password) => {
+const insertUser = (res, username, fullname, email, password) => {
   let user = new User();
   // user.Id = user._id;
   user.Username = username;

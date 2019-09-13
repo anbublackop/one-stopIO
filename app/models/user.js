@@ -2,7 +2,6 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  Id: { type: Number, default: '_id' },
   Username: { type: String, trim: true },
   Password: { type: String, trim: true },
   FullName: { type: String, trim: true },
@@ -11,8 +10,7 @@ const userSchema = new Schema({
 });
 
 const codeSchema = new Schema({
-    Id: { type: Number, default: '_id' },
-    UserId: Number,
+    UserId: String,
     Body: String,
     Language: String,
     Key: String,

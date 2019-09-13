@@ -18,98 +18,98 @@
 </head>
 
 <body>
-		<div id="editor" value=>function foo(items) {
-		let x = "All this is syntax highlighted";
-		return x;
-		}</div>
+	<div id="editor" value=>function foo(items) {
+	let x = "All this is syntax highlighted";
+	return x;
+	}</div>
 
-		<h4 style="position:absolute; top:62%">Standard Input</h4>
-		<span>
-			<textarea id="stdin" rows="6" cols="50" style="border-radius:10px; position:absolute; top:68%"> 
-			</textarea>
-		</span>
-						
-		<button type="button" style="position:absolute; top:79%; left:525px" onclick="showResponse()" class="btn btn-success">Submit</button>
+	<h4 style="position:absolute; top:62%">Standard Input</h4>
+	<span>
+		<textarea id="stdin" rows="6" cols="50" style="border-radius:10px; position:absolute; top:68%"> 
+		</textarea>
+	</span>
+					
+	<button type="button" style="position:absolute; top:79%; left:525px" onclick="showResponse()" class="btn btn-success">Submit</button>
 
-		<button type="button" style="position:absolute; top:85%; left:525px" onclick="emptyEditor()" class="btn btn-info">Reset</button>
+	<button type="button" style="position:absolute; top:85%; left:525px" onclick="emptyEditor()" class="btn btn-info">Reset</button>
 
-		<h5 style="position:absolute; top:68%; left:525px">Choose Language</h5>
-		<select class="btn btn-dark" onchange="changeHighlighter(this.value);" style="position:absolute; top:73%; left:525px" id="select" type="button" data-toggle="dropdown">
-			<option class="btn btn-light" type="button" value="java">Java</option>
-			<option class="btn btn-light" type="button" value="java">Java (Advanced)</option>
-			<option class="btn btn-light" type="button" value="c">C</option>
-			<option class="btn btn-light" type="button" value="cpp">C++</option>
-			<option class="btn btn-light" type="button" value="cpp14">C++14</option>
-			<option class="btn btn-light" type="button" value="c99">C99</option>
-			<option class="btn btn-light" type="button" value="csharp">C#</option>
-			<option class="btn btn-light" type="button" value="php">PHP</option>
-			<option class="btn btn-light" type="button" value="perl">Perl</option>
-			<option class="btn btn-light" type="button" value="ruby">Ruby</option>
-			<option class="btn btn-light" type="button" value="python2">Python2</option>
-			<option class="btn btn-light" type="button" value="python3">Python3</option>
-			<option class="btn btn-light" type="button" value="sql">SQL</option>
-			<option class="btn btn-light" type="button" value="scala">Scala</option>
-			<option class="btn btn-light" type="button" value="vbn">VB.Net</option>
-			<option class="btn btn-light" type="button" value="pascal">Pascal</option>
-			<option class="btn btn-light" type="button" value="haskell">Haskell</option>
-			<option class="btn btn-light" type="button" value="kotlin">Kotlin</option>
-			<option class="btn btn-light" type="button" value="swift">Swift</option>
-			<option class="btn btn-light" type="button" value="objc">Objective-C</option>
-			<option class="btn btn-light" type="button" value="groovy">Groovy</option>
-			<option class="btn btn-light" type="button" value="fortran">Fortran</option>
-			<option class="btn btn-light" type="button" value="brainfuck">Brainf**k</option>
-			<option class="btn btn-light" type="button" value="hack">Hack</option>
-			<option class="btn btn-light" type="button" value="tcl">TCL</option>
-			<option class="btn btn-light" type="button" value="lua">Lua</option>
-			<option class="btn btn-light" type="button" value="rust">Rust</option>
-			<option class="btn btn-light" type="button" value="fsharp">F#</option>
-			<option class="btn btn-light" type="button" value="ada">Ada</option>
-			<option class="btn btn-light" type="button" value="d">D</option>
-			<option class="btn btn-light" type="button" value="yabasic">YaBasic</option>
-			<option class="btn btn-light" type="button" value="freebasic">Free Basic</option>
-			<option class="btn btn-light" type="button" value="clojure">Clojure</option>
-			<option class="btn btn-light" type="button" value="verilog">Verilog</option>
-			<option class="btn btn-light" type="button" value="nodejs">NodeJS</option>
-			<option class="btn btn-light" type="button" value="scheme">Scheme</option>
-			<option class="btn btn-light" type="button" value="forth">Forth</option>
-			<option class="btn btn-light" type="button" value="prolog">Prolog</option>
-			<option class="btn btn-light" type="button" value="bash">Bash</option>
-			<option class="btn btn-light" type="button" value="cobol">COBOL</option>
-			<option class="btn btn-light" type="button" value="octave">OCTAVE/Matlab</option>
-			<option class="btn btn-light" type="button" value="icon">Icon</option>
-			<option class="btn btn-light" type="button" value="coffeescript">CoffeeScript</option>
-			<option class="btn btn-light" type="button" value="assembler">Assembler (GCC)</option>
-			<option class="btn btn-light" type="button" value="r">R</option>
-			<option class="btn btn-light" type="button" value="assembler">Assembler (NASM)</option>
-			<option class="btn btn-light" type="button" value="intercal">Intercal</option>
-			<option class="btn btn-light" type="button" value="nemerle">Nemerle</option>
-			<option class="btn btn-light" type="button" value="ocaml">Ocaml</option>
-			<option class="btn btn-light" type="button" value="unlambda">Unlambda</option>
-			<option class="btn btn-light" type="button" value="picolisp">Picolisp</option>
-			<option class="btn btn-light" type="button" value="clisp">CLISP</option>
-			<option class="btn btn-light" type="button" value="elixir">Elixir</option>
-			<option class="btn btn-light" type="button" value="spidermonkey">SpiderMonkey</option>
-			<option class="btn btn-light" type="button" value="rhino">Rhino JS</option>
-			<option class="btn btn-light" type="button" value="bc">BC</option>
-			<option class="btn btn-light" type="button" value="nim">Nim</option>
-			<option class="btn btn-light" type="button" value="factor">Factor</option>
-			<option class="btn btn-light" type="button" value="falcon">Falcon</option>
-			<option class="btn btn-light" type="button" value="fantom">Fantom</option>
-			<option class="btn btn-light" type="button" value="pike">Pike</option>
-			<option class="btn btn-light" type="button" value="go">Go</option>
-			<option class="btn btn-light" type="button" value="mozart">OZ-Mozart</option>
-			<option class="btn btn-light" type="button" value="lolcode">LOLCODE</option>
-			<option class="btn btn-light" type="button" value="racket">Racket</option>
-			<option class="btn btn-light" type="button" value="smalltalk">SmallTalk</option>
-			<option class="btn btn-light" type="button" value="whitespace">Whitespace</option>
-		</select>
+	<h5 style="position:absolute; top:68%; left:525px">Choose Language</h5>
+	<select class="btn btn-dark" onchange="changeHighlighter(this.value);" style="position:absolute; top:73%; left:525px" id="select" type="button" data-toggle="dropdown">
+		<option class="btn btn-light" type="button" value="java">Java</option>
+		<option class="btn btn-light" type="button" value="java">Java (Advanced)</option>
+		<option class="btn btn-light" type="button" value="c">C</option>
+		<option class="btn btn-light" type="button" value="cpp">C++</option>
+		<option class="btn btn-light" type="button" value="cpp14">C++14</option>
+		<option class="btn btn-light" type="button" value="c99">C99</option>
+		<option class="btn btn-light" type="button" value="csharp">C#</option>
+		<option class="btn btn-light" type="button" value="php">PHP</option>
+		<option class="btn btn-light" type="button" value="perl">Perl</option>
+		<option class="btn btn-light" type="button" value="ruby">Ruby</option>
+		<option class="btn btn-light" type="button" value="python2">Python2</option>
+		<option class="btn btn-light" type="button" value="python3">Python3</option>
+		<option class="btn btn-light" type="button" value="sql">SQL</option>
+		<option class="btn btn-light" type="button" value="scala">Scala</option>
+		<option class="btn btn-light" type="button" value="vbn">VB.Net</option>
+		<option class="btn btn-light" type="button" value="pascal">Pascal</option>
+		<option class="btn btn-light" type="button" value="haskell">Haskell</option>
+		<option class="btn btn-light" type="button" value="kotlin">Kotlin</option>
+		<option class="btn btn-light" type="button" value="swift">Swift</option>
+		<option class="btn btn-light" type="button" value="objc">Objective-C</option>
+		<option class="btn btn-light" type="button" value="groovy">Groovy</option>
+		<option class="btn btn-light" type="button" value="fortran">Fortran</option>
+		<option class="btn btn-light" type="button" value="brainfuck">Brainf**k</option>
+		<option class="btn btn-light" type="button" value="hack">Hack</option>
+		<option class="btn btn-light" type="button" value="tcl">TCL</option>
+		<option class="btn btn-light" type="button" value="lua">Lua</option>
+		<option class="btn btn-light" type="button" value="rust">Rust</option>
+		<option class="btn btn-light" type="button" value="fsharp">F#</option>
+		<option class="btn btn-light" type="button" value="ada">Ada</option>
+		<option class="btn btn-light" type="button" value="d">D</option>
+		<option class="btn btn-light" type="button" value="yabasic">YaBasic</option>
+		<option class="btn btn-light" type="button" value="freebasic">Free Basic</option>
+		<option class="btn btn-light" type="button" value="clojure">Clojure</option>
+		<option class="btn btn-light" type="button" value="verilog">Verilog</option>
+		<option class="btn btn-light" type="button" value="nodejs">NodeJS</option>
+		<option class="btn btn-light" type="button" value="scheme">Scheme</option>
+		<option class="btn btn-light" type="button" value="forth">Forth</option>
+		<option class="btn btn-light" type="button" value="prolog">Prolog</option>
+		<option class="btn btn-light" type="button" value="bash">Bash</option>
+		<option class="btn btn-light" type="button" value="cobol">COBOL</option>
+		<option class="btn btn-light" type="button" value="octave">OCTAVE/Matlab</option>
+		<option class="btn btn-light" type="button" value="icon">Icon</option>
+		<option class="btn btn-light" type="button" value="coffeescript">CoffeeScript</option>
+		<option class="btn btn-light" type="button" value="assembler">Assembler (GCC)</option>
+		<option class="btn btn-light" type="button" value="r">R</option>
+		<option class="btn btn-light" type="button" value="assembler">Assembler (NASM)</option>
+		<option class="btn btn-light" type="button" value="intercal">Intercal</option>
+		<option class="btn btn-light" type="button" value="nemerle">Nemerle</option>
+		<option class="btn btn-light" type="button" value="ocaml">Ocaml</option>
+		<option class="btn btn-light" type="button" value="unlambda">Unlambda</option>
+		<option class="btn btn-light" type="button" value="picolisp">Picolisp</option>
+		<option class="btn btn-light" type="button" value="clisp">CLISP</option>
+		<option class="btn btn-light" type="button" value="elixir">Elixir</option>
+		<option class="btn btn-light" type="button" value="spidermonkey">SpiderMonkey</option>
+		<option class="btn btn-light" type="button" value="rhino">Rhino JS</option>
+		<option class="btn btn-light" type="button" value="bc">BC</option>
+		<option class="btn btn-light" type="button" value="nim">Nim</option>
+		<option class="btn btn-light" type="button" value="factor">Factor</option>
+		<option class="btn btn-light" type="button" value="falcon">Falcon</option>
+		<option class="btn btn-light" type="button" value="fantom">Fantom</option>
+		<option class="btn btn-light" type="button" value="pike">Pike</option>
+		<option class="btn btn-light" type="button" value="go">Go</option>
+		<option class="btn btn-light" type="button" value="mozart">OZ-Mozart</option>
+		<option class="btn btn-light" type="button" value="lolcode">LOLCODE</option>
+		<option class="btn btn-light" type="button" value="racket">Racket</option>
+		<option class="btn btn-light" type="button" value="smalltalk">SmallTalk</option>
+		<option class="btn btn-light" type="button" value="whitespace">Whitespace</option>
+	</select>
 
-		<span>
-			<h4 style="position:absolute; top:62%; left:900px;">Standard Output</h4>
-			<div id="outputbox" style="position:absolute; top:68%; left:900px; width:400px; height:200px; border:solid black 1px; overflow-y: scroll; border-radius:10px">
-			</div>
-		</span>
+	<span>
+		<h4 style="position:absolute; top:62%; left:900px;">Standard Output</h4>
+		<div id="outputbox" style="position:absolute; top:68%; left:900px; width:400px; height:200px; border:solid black 1px; overflow-y: scroll; border-radius:10px">
 		</div>
+	</span>
+	</div>
 	
 {{!-- <script src="/public/editor.js" type="text/javascript"></script> --}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.5/ace.js" type="text/javascript" charset="utf-8"></script>

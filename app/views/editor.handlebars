@@ -18,24 +18,23 @@
 </head>
 
 <body>
-		<form>
-			<div id="editor" name="body" value=>function foo(items) {
-			let x = "All this is syntax highlighted";
-			return x;
-			}</div>
+		<div id="editor" value=>function foo(items) {
+		let x = "All this is syntax highlighted";
+		return x;
+		}</div>
 
 		<h4 style="position:absolute; top:62%">Standard Input</h4>
 		<span>
-			<textarea name="stdin" rows="6" cols="50" class="card-body" style="border-radius:10px; position:absolute; top:68%"> 
+			<textarea id="stdin" rows="6" cols="50" style="border-radius:10px; position:absolute; top:68%"> 
 			</textarea>
 		</span>
 						
-		<button type="submit" style="position:absolute; top:68%; left:525px" class="btn btn-success">Submit</button>
+		<button type="button" style="position:absolute; top:79%; left:525px" onclick="showResponse()" class="btn btn-success">Submit</button>
 
-		<button type="button" style="position:absolute; top:74%; left:525px" class="btn btn-info">Reset</button>
+		<button type="button" style="position:absolute; top:85%; left:525px" onclick="emptyEditor()" class="btn btn-info">Reset</button>
 
-		<h4 style="position:absolute; top:80%; left:525px">Choose Language</h4>
-		<select class="btn btn-dark" onchange="changeHighlighter(this.value);" style="position:absolute; top:85%; left:525px" id="select" name="language" type="button" data-toggle="dropdown">
+		<h5 style="position:absolute; top:68%; left:525px">Choose Language</h5>
+		<select class="btn btn-dark" onchange="changeHighlighter(this.value);" style="position:absolute; top:73%; left:525px" id="select" type="button" data-toggle="dropdown">
 			<option class="btn btn-light" type="button" value="java">Java</option>
 			<option class="btn btn-light" type="button" value="java">Java (Advanced)</option>
 			<option class="btn btn-light" type="button" value="c">C</option>
@@ -104,47 +103,46 @@
 			<option class="btn btn-light" type="button" value="smalltalk">SmallTalk</option>
 			<option class="btn btn-light" type="button" value="whitespace">Whitespace</option>
 		</select>
+
 		<span>
-			<div id="outputbox" class="card-body" style="position:absolute; top:68%; left:900px">
-				This is output box
+			<h4 style="position:absolute; top:62%; left:900px;">Standard Output</h4>
+			<div id="outputbox" style="position:absolute; top:68%; left:900px; width:400px; height:200px; border:solid black 1px; overflow-y: scroll; border-radius:10px">
 			</div>
 		</span>
 		</div>
-	</form>	
-
-
+	
 {{!-- <script src="/public/editor.js" type="text/javascript"></script> --}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.5/ace.js" type="text/javascript" charset="utf-8"></script>
-<script src="/public/editor.js" type="text/javascript" charset="utf-8"></script>
 <script
   src="https://code.jquery.com/jquery-3.4.1.js"
   integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
   crossorigin="anonymous"></script>
-<script>
-	$(function(){
-			$('form').on('submit', function(e){
-				$("#editor").val(editor.getSession().getValue());
-				e.preventDefault();
-				$.ajax({
-					type: 'post',
-					url: "/user/compile_and_run",
-					data: $('form').serialize()+"&body="+editor.getSession().getValue(),
-				}).done(function(data) {
-					console.log(data);
-					document.getElementById("outputbox").value = data['output'];
-					}
-				)
-			});
-		});
-</script>
-
 
 <script>
 	let editor = ace.edit("editor");
 	editor.setTheme("ace/theme/textmate");
 	editor.session.setMode("ace/mode/python");
 	
+	function emptyEditor(){
+		editor.setValue('');
+	}
+
+	function showResponse(){
+		$.ajax({
+			type: "post",
+			url: "/user/compile_and_run",
+			data:{
+				'language': $('#select').val(),
+				'stdin': $('#stdin').val(),
+				'body': editor.getSession().getValue()
+			}
+		}).done(function(data){
+			document.getElementById('outputbox').innerText=data['output'];
+		});
+	}
+
 	function changeHighlighter(val){
+		val = val.replace(/[0-9]/g, '');
 		editor.session.setMode("ace/mode/"+val);
 	}
 

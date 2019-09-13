@@ -71,7 +71,7 @@ export default class UserController {
       res.send("Invalid details!");
     }
     else {
-      console.log("Hello World!!!!!!!!!!!!");
+      console.log('Hello Console!!!!!!!!!!!!'); 
       User.find((err, docs) => {
         if (!err) {
           console.log(docs);
@@ -137,9 +137,9 @@ export default class UserController {
         });
       });
     }
+
   const result = await responseFunction();
-  console.log(result);
-  return result;
+  res.send(result);
   }
 }
 

@@ -18,9 +18,12 @@
 	<div class="collapse navbar-collapse" id="navbarSupportedContent">
 		<form class="form-inline my-2 my-lg-0">
 			<ul class="navbar-nav mr-auto">
-				{{#if req.session.user }}
+				{{#if req.session.user}}
 					<li class="nav-item active">
-						<a class="nav-link" href="/user/myCodes/">My Codes<span class="sr-only"></span></a>
+						<span class="nav-link">Hi {{req.session.user.FullName}}!</span>
+					</li>
+					<li class="nav-item active">
+						<a class="nav-link" href="/user/my_codes/">My Codes<span class="sr-only"></span></a>
 					</li>
 					<li class="nav-item active">
 						<a class="nav-link" href="/user/logout">Logout<span class="sr-only"></span></a>

@@ -6,10 +6,12 @@ const initUserRoutes = () => {
   userRoutes.get('/', UserController.page);
   userRoutes.get('/login', UserController.login);
   userRoutes.get('/logout', UserController.logout);
-  userRoutes.get('/showAll', UserController.showAll);
-  userRoutes.get('/myCodes', UserController.myCodes);
+  userRoutes.get('/show_all', UserController.show_all);
+  userRoutes.post('/share', UserController.share);
+  userRoutes.get('/delete', UserController.delete);
+  userRoutes.get('/my_codes', UserController.my_codes);
   userRoutes.get('/register', UserController.register);
-  userRoutes.post('/loggingIn', UserController.loggingIn);
+  userRoutes.post('/logging_in', UserController.logging_in);
   userRoutes.post('/compile_and_run', UserController.compile);
   userRoutes.post('/registration', UserController.registration);
   return userRoutes;

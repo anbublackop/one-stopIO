@@ -18,14 +18,10 @@ const codeSchema = new Schema({
     Link: String,
     SharedWith: {
       Username: String,
-      UserId: Number,
-      SharedOn: Date
     }  
 });
 
 const User = mongoose.model('User', userSchema);
 const Code = mongoose.model('Code', codeSchema);
 
-module.exports.User = User;
-module.exports.Code = Code;
-
+export {User, Code}

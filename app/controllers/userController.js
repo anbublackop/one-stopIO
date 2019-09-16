@@ -2,6 +2,7 @@ import Responder from '../../lib/expressResponder';
 import { User, Code } from '../models/index';
 import session from 'express-session';
 import request from 'request';
+import config from 'config'
 
 export default class UserController {
 
@@ -10,7 +11,14 @@ export default class UserController {
     // .then(plans => Responder.success(res, plans))
     // .catch(errorOnDBOp => Responder.operationFailed(res, errorOnDBOp));
     // Responder.success(res, 'This is home page');
-    res.render('editor');
+    res.render('editor', {req: req});
+  }
+
+  static share(req, res){
+    console.log("Sharing...");
+    let { usernames } = req.body;
+    let list_of_usernames = usernames.split(',');
+    
   }
 
   static login(req, res) {
@@ -34,7 +42,7 @@ export default class UserController {
       res.render('register');
   }
 
-  static loggingIn(req, res) {
+  static logging_in(req, res) {
     let { username, password } = req.body;
     User.findOne({ Username: username }, (err, user) => {
       if (user) {
@@ -49,19 +57,19 @@ export default class UserController {
     });
   }
 
-  static myCodes(req, res) {
-    userid = req.query.userid;
-    if (req.session.user) {
-      if (req.session.user._id.str === userid) {
-        res.send("Access granted to view the page!");
-        // res.render('myCodes');
-      }
-      else {
-        res.send("You are not allowed to view this page!");
-      }
+  static my_codes(req, res) {
+    if (req.session.user) {      
+      Code.find({ UserId: req.session.user._id }, (err, code) => {
+        if(code){
+          res.render('myCodes', {req: req, codes: code});
+        }
+        else{
+          res.render('myCodes', {req: req, codes: null});
+        }
+      });
     }
-    else {
-      res.send("Please login to continue!");
+    else{
+      res.send("You are not allowed to view this page!");
     }
   }
 
@@ -82,6 +90,7 @@ export default class UserController {
           else {
             insertUser(res, username, fullname, email, password);
             res.status(201);
+            res.render('editor', {req: req});
           }
         }
         else {
@@ -92,7 +101,17 @@ export default class UserController {
     }
   }
 
-  static showAll(req, res) {
+  static delete(req, res){
+    let codeid = req.query.id;
+    Code.deleteOne({_id: codeid}, (err, docs) => {
+      if(err){
+        console.log("Error while deleting the code!");
+      }
+    });
+    res.redirect('back');
+  }
+
+  static show_all(req, res) {
     console.log(User);
     User.find((err, docs) => {
       if (!err) {
@@ -109,46 +128,49 @@ export default class UserController {
   static async compile(req, res) {
     const host = "https://api.jdoodle.com/v1/execute";
     const { language, body, stdin } = req.body;
-    const data = {
-      'clientSecret': '4a941cc902adaca23c1e67330856b697726c68f84c5a88ccd1bf5c4cb7568ea3',
-      'clientId': 'ac4680b2f667cd4864a60e9d5cd4d18f',
-      'script': body,
-      'stdin': stdin,
-      'language': language,
-      'versionIndex': '0'
-    }
-    function responseFunction() {
-      return new Promise((resolve, reject) => {
-        request.post(host, { json: data }, (error, res, body) => {
-          if (error) {
-            reject(error);
-          }
-          resolve(body);
+    if (body.trim()!==''){
+      const data = {
+        'clientSecret': config.jdoodleKeys.clientSecret,
+        'clientId': config.jdoodleKeys.clientId,
+        'script': body,
+        'stdin': stdin,
+        'language': language,
+        'versionIndex': '0'
+      }
+      function responseFunction() {
+        return new Promise((resolve, reject) => {
+          request.post(host, { json: data }, (error, res, body) => {
+            if (error) {
+              reject(error);
+            }
+            resolve(body);
+          });
         });
-      });
+      }
+      
+      const result = await responseFunction();
+  
+      if (req.session.user){
+        let code = new Code();
+        code.UserId=req.session.user._id;
+        code.Body=body; 
+        code.Language=language;
+        code.save((err, doc) => {
+          if (!err) {
+            console.log("Code saved successfully!")
+          }
+          else {
+            console.log('Error while saving the code!');
+          }
+        });
+      }
+      res.send(result);
     }
-    
-    const result = await responseFunction();
-
-    if (req.session.user){
-      let code = new Code();
-      code.userid=req.session.user._id.str;
-      code.Body=body; 
-      code.Language=language;
-      code.save((err, doc) => {
-        if (!err) {
-          res.redirect('/');
-        }
-        else {
-          console.log('Error while saving the code!');
-        }
-      });
+    else{
+      console.log("Please add some body in the editor to compile!");
     }
-
-    res.send(result);
   }
 }
-
 // async function basicAuth(req, res, next) {
 //   // make authenticate path public
 //   if (req.path === '/users/authenticate') {
@@ -177,7 +199,6 @@ export default class UserController {
 
 const insertUser = (res, username, fullname, email, password) => {
   let user = new User();
-  // user.Id = user._id;
   user.Username = username;
   user.FullName = fullname;
   user.Email = email;

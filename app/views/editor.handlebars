@@ -116,6 +116,11 @@
   crossorigin="anonymous"></script>
 
 <script>
+	$(document).ready(function() {
+		loadEditor();
+		//googleAuth();
+	});
+
 	let editor = ace.edit("editor");
 	editor.setTheme("ace/theme/textmate");
 	editor.session.setMode("ace/mode/python");
@@ -124,21 +129,53 @@
 		editor.setValue('');
 	}
 
-	function loadEditor(){
-	
+	function googleAuth(){
+		let param = /[&?]code=([^&]+)/.exec(location.search);
+		if (param){
+			$.ajax({
+				type: "post",
+				url: "/user/auth/google",
+				data:{
+					'code': param[1]
+				}
+			}).done(function(data){
+				console.log(data);
+			});
+		}
 	}
 
+	function loadEditor(){
+		let param = /[&?]codeid=([^&]+)/.exec(location.search);
+		if (param){
+			$.ajax({
+				type: "get",
+				url: "/user/filterCode/?key="+param[1]
+			}).done(function(data){
+				editor.setValue(data);
+			});
+		}
+		return param;
+	}	
+
 	function showResponse(){
+		let params=loadEditor();
+		let key=null;
+		if (params){
+			key=params[1];
+		}
+		const body=editor.getSession().getValue();
 		$.ajax({
 			type: "post",
 			url: "/user/compile_and_run",
 			data:{
 				'language': $('#select').val(),
 				'stdin': $('#stdin').val(),
-				'body': editor.getSession().getValue()
+				'body': body,
+				'codeid': key
 			}
 		}).done(function(data){
 			document.getElementById('outputbox').innerText=data['output'];
+			editor.setValue(body);
 		});
 	}
 

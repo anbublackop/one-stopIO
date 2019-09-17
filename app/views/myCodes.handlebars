@@ -16,7 +16,7 @@
 		<tr>
 			<th>Language</th>
 			<th>Content</th>
-			<th>Hash</th>
+			<th>Open</th>
 			<th>Share Code</th>
 			<th>Delete</th>
 		</tr>
@@ -26,11 +26,16 @@
 		<tr>
 			<td>{{this.Language}}</td>
 			<td>{{this.Body}}</td>
-			<form action="/user/editor" method="POST">
-				<td><a>{{this._id}}</a></td>
-				<input type="text" style="display:none" name="body" value={{this.Body}}>
-			</form>
-			<td><a class="trigger_popup_fricc">Share Code</a></td>
+			<td>
+				<a href="/user/?codeid={{this._id}}">Load into Editor</a>
+			</td>
+			<input type="text" style="display:none" name="body" value={{this.Body}}>
+			<td>
+				<form> 
+					<a class="trigger_popup_fricc">Share Code</a>
+					<input type="text" style="display:none" name="share">
+				</form>	
+			</td>
 			<td><a href="/user/delete?id={{this._id}}">Delete</a></td>
 		</tr>
 		{{/each}}

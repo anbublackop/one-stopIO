@@ -3,6 +3,8 @@ import { User, Code } from '../models/index';
 import session from 'express-session';
 import request from 'request';
 import config from 'config'
+import jsdom from 'jsdom';
+import auth from '../../config/google-util'
 
 export default class UserController {
 
@@ -125,9 +127,18 @@ export default class UserController {
     });
   }
 
+  static filterCode(req, res){
+    const key = req.query.key;
+    Code.findOne({_id: key}, (err, docs) => {
+      if (!err){
+        res.send(docs.Body);
+      }
+    });
+  }
+
   static async compile(req, res) {
     const host = "https://api.jdoodle.com/v1/execute";
-    const { language, body, stdin } = req.body;
+    const { language, body, stdin, codeid } = req.body;
     if (body.trim()!==''){
       const data = {
         'clientSecret': config.jdoodleKeys.clientSecret,
@@ -149,20 +160,24 @@ export default class UserController {
       }
       
       const result = await responseFunction();
-  
       if (req.session.user){
-        let code = new Code();
-        code.UserId=req.session.user._id;
-        code.Body=body; 
-        code.Language=language;
-        code.save((err, doc) => {
-          if (!err) {
-            console.log("Code saved successfully!")
-          }
-          else {
-            console.log('Error while saving the code!');
-          }
-        });
+        if (codeid){
+          Code.findOne({_id: codeid}, (err, doc)=>{
+            if (doc){
+              doc.UserId=req.session.user._id;
+              doc.Body=body; 
+              doc.Language=language;
+              doc.save();
+            }
+          });
+        }
+        else{
+          let code = new Code();
+          code.UserId=req.session.user._id;
+          code.Body=body; 
+          code.Language=language;
+          code.save();
+        }
       }
       res.send(result);
     }
@@ -170,7 +185,82 @@ export default class UserController {
       console.log("Please add some body in the editor to compile!");
     }
   }
+
+  static googleConsent(req, res){
+    console.log(auth.urlGoogle());
+    res.redirect(auth.urlGoogle());
+  }
+
+  static googleAuthRedirect(req, res){
+    //log in the user with the provided info and then redirect the user to the editor page
+    res.render('editor', {req: req});
+  }
 }
+
+// /*
+//  * Create form to request access token from Google's OAuth 2.0 server.
+//  */
+// function oauthSignIn() {
+
+//   let jsdom = require('jsdom');
+//   const { JSDOM } = jsdom;
+
+//   const { document } = (new JSDOM('')).window;
+  
+//   // Google's OAuth 2.0 endpoint for requesting an access token
+//   let oauth2Endpoint = 'https://accounts.google.com/o/oauth2/v2/auth';
+//   // Create <form> element to submit parameters to OAuth 2.0 endpoint.
+//   let form = document.createElement('form');
+  
+//   form.setAttribute('method', 'GET'); // Send as a GET request.
+//   form.setAttribute('action', oauth2Endpoint);
+
+//   // Parameters to pass to OAuth 2.0 endpoint.
+//   let params = {'client_id': config.googleKeys.clientId,
+//                 'redirect_uri': config.googleKeys.redirectURI,
+//                 'response_type': 'token',
+//                 'scope': 'https://www.googleapis.com/auth/drive.metadata.readonly',
+//                 'include_granted_scopes': 'true',
+//                 'state': 'pass-through value'};
+
+//   // Add form parameters as hidden input values.
+//   for (let p in params) {
+//     let input = document.createElement('input');
+//     input.setAttribute('type', 'hidden');
+//     input.setAttribute('name', p);
+//     input.setAttribute('value', params[p]);
+//     form.appendChild(input);
+//   }
+
+//   // Add form to page and submit it to open the OAuth 2.0 endpoint.
+//   document.body.appendChild(form);
+  
+//   form.submit();
+// }
+
+const insertUser = (res, username, fullname, email, password) => {
+  let user = new User();
+  user.Username = username;
+  user.FullName = fullname;
+  user.Email = email;
+  user.Password = password;
+  user.save((err, doc) => {
+    if (!err) {
+      res.redirect('/');
+    }
+    else {
+      console.log('Error while registring the user!');
+    }
+  });
+}
+
+
+
+
+
+
+
+
 // async function basicAuth(req, res, next) {
 //   // make authenticate path public
 //   if (req.path === '/users/authenticate') {
@@ -196,19 +286,3 @@ export default class UserController {
 
 //   next();
 // }
-
-const insertUser = (res, username, fullname, email, password) => {
-  let user = new User();
-  user.Username = username;
-  user.FullName = fullname;
-  user.Email = email;
-  user.Password = password;
-  user.save((err, doc) => {
-    if (!err) {
-      res.redirect('/');
-    }
-    else {
-      console.log('Error while registring the user!');
-    }
-  });
-}

@@ -2,12 +2,9 @@
 	<span class="helper"></span>
 	<div>
 		<div class="popupCloseButton">x</div>
-		<form action="/user/share" method="POST">
-			<h4>Username:</h4>
-			<input type="text" name="usernames">
-			<input type="text" style="display:none" name="key">
-			<button type="submit" name="share">Share</button>
-		</form>
+		<h4>Username:</h4>
+		<input id="usernamesShare" type="text" name="usernames">
+		<button id="shareButton" type="button" name="share">Share</button>
 	</div>
 </div>
 
@@ -26,17 +23,10 @@
 		<tr>
 			<td>{{this.Language}}</td>
 			<td>{{this.Body}}</td>
-			<td>
-				<a href="/user/?codeid={{this._id}}">Load into Editor</a>
-			</td>
+			<td><a href="/user/?codeid={{this._id}}">Load into Editor</a></td>
 			<input type="text" style="display:none" name="body" value={{this.Body}}>
-			<td>
-				<form> 
-					<a class="trigger_popup_fricc">Share Code</a>
-					<input type="text" style="display:none" name="share">
-				</form>	
-			</td>
-			<td><a href="/user/delete?id={{this._id}}">Delete</a></td>
+			<td><button class="trigger_popup_fricc btn btn-dark" onclick="shareCode('{{this._id}}')">Share Code</button></td>
+			<td><button class="btn btn-dark" onclick="deleteRecord('{{this._id}}')">Delete</button></td>
 		</tr>
 		{{/each}}
 	</tbody>
@@ -44,13 +34,39 @@
 
 <script>
 	$(window).on("load", function () {
-		$(".trigger_popup_fricc").click(() => {
-			$('.hover_bkgr_fricc').show();
-		});
 		$('.popupCloseButton').click(() => {
 			$('.hover_bkgr_fricc').hide();
 		});
 	});
+
+	function deleteRecord(id){
+		$.ajax({
+			type: 'get',
+			headers: { 'Authorization': 'Bearer '+localStorage.getItem('token') },
+			url: '/user/delete/?id='+id
+		}).done(function(data){
+			location.reload();
+		});
+	}
+
+	function shareCode(id){
+		$('.hover_bkgr_fricc').show();
+		$('#shareButton').click(()=>{
+			$.ajax({
+				type: 'post',
+				headers: { 'Authorization': 'Bearer '+localStorage.getItem('token') },
+				url: '/user/share/?id='+id,
+				data: {
+					'usernames': $('#usernamesShare').val()
+				}
+			}).done(function(data){
+				$('.hover_bkgr_fricc').hide();
+				alert(data);
+			});
+		});
+		return true;
+	}
+
 </script>
 
 <style>

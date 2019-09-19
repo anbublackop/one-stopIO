@@ -1,10 +1,14 @@
+import request from 'request';
+import config from 'config';
+import jwt from 'jsonwebtoken';;
+
 import Responder from '../../lib/expressResponder';
 import { User, Code } from '../models/index';
-import session from 'express-session';
-import request from 'request';
-import config from 'config'
-import jsdom from 'jsdom';
-import auth from '../../config/google-util'
+import auth from '../../config/google-util';
+
+const jwtKey = 'my_secret_key';
+const jwtExpirySeconds = 300;
+
 
 export default class UserController {
 
@@ -18,9 +22,21 @@ export default class UserController {
 
   static share(req, res){
     console.log("Sharing...");
-    let { usernames } = req.body;
-    let list_of_usernames = usernames.split(',');
-    
+    const authToken = req.headers.authorization;
+    if (authToken){
+      const token = extractToken(authToken);
+      if (verifyToken(token)){
+        const codeid = req.query.id;
+        let list_of_usernames = req.body.usernames.split(',');
+        Code.findOne({_id: codeid}, (err, docs) => {
+          if (docs){
+            docs.SharedWith = list_of_usernames;
+            docs.save();
+            res.send("Code Shared Successfully!");
+          }
+        });
+      }
+    }
   }
 
   static login(req, res) {
@@ -32,7 +48,7 @@ export default class UserController {
 
   static logout(req, res) {
     req.session.destroy(() => {
-      console.log("user logged out.")
+      res.render('editor');
     });
     res.render('login');
   }
@@ -43,18 +59,21 @@ export default class UserController {
     else
       res.render('register');
   }
-
+ 
   static logging_in(req, res) {
     let { username, password } = req.body;
     User.findOne({ Username: username }, (err, user) => {
       if (user) {
         if (user.Password === password) {
+          const token = jwt.sign({ username }, jwtKey, {
+            algorithm: 'HS256', expiresIn: jwtExpirySeconds
+          });
           req.session.user = user;
-          res.render('editor', {req: req});
+          res.render('editor', { req: req, token: token });
         }
       }
       else {
-        console.log('Invalid Credentials!!');
+        res.send('Invalid Credentials!!');
       }
     });
   }
@@ -65,9 +84,7 @@ export default class UserController {
         if(code){
           res.render('myCodes', {req: req, codes: code});
         }
-        else{
-          res.render('myCodes', {req: req, codes: null});
-        }
+        res.render('myCodes', {req: req, codes: null});
       });
     }
     else{
@@ -83,7 +100,6 @@ export default class UserController {
     }
     else {
       User.findOne({ Username: username }, (err, user) => {
-        console.log(err,user);
         if (!err) {
           if (user) {
             res.status(405);
@@ -97,24 +113,29 @@ export default class UserController {
         }
         else {
           res.status(500);
-          console.log("Something went wrong!");
+          res.send("Something went wrong!");
         }
       });
     }
   }
 
   static delete(req, res){
-    let codeid = req.query.id;
-    Code.deleteOne({_id: codeid}, (err, docs) => {
-      if(err){
-        console.log("Error while deleting the code!");
+    const authToken = req.headers.authorization;
+    if (authToken){
+      const token = extractToken(authToken);
+      if (verifyToken(token)){
+        let codeid = req.query.id;
+        Code.deleteOne({_id: codeid}, (err) => {
+          if(err){
+            res.send("Error while deleting the code!");
+          }
+        });
+        res.send('Data deleted successfully!');
       }
-    });
-    res.redirect('back');
+    }
   }
 
   static show_all(req, res) {
-    console.log(User);
     User.find((err, docs) => {
       if (!err) {
         res.render('showUsers', {
@@ -122,7 +143,7 @@ export default class UserController {
         });
       }
       else {
-        console.log("Error loading users!");
+        res.send("Error loading users!");
       }
     });
   }
@@ -137,8 +158,10 @@ export default class UserController {
   }
 
   static async compile(req, res) {
+    
     const host = "https://api.jdoodle.com/v1/execute";
     const { language, body, stdin, codeid } = req.body;
+    
     if (body.trim()!==''){
       const data = {
         'clientSecret': config.jdoodleKeys.clientSecret,
@@ -148,6 +171,7 @@ export default class UserController {
         'language': language,
         'versionIndex': '0'
       }
+
       function responseFunction() {
         return new Promise((resolve, reject) => {
           request.post(host, { json: data }, (error, res, body) => {
@@ -181,9 +205,7 @@ export default class UserController {
       }
       res.send(result);
     }
-    else{
-      console.log("Please add some body in the editor to compile!");
-    }
+    res.send("Please add some body in the editor to compile!");
   }
 
   static googleConsent(req, res){
@@ -197,46 +219,20 @@ export default class UserController {
   }
 }
 
-// /*
-//  * Create form to request access token from Google's OAuth 2.0 server.
-//  */
-// function oauthSignIn() {
+const verifyToken = (token) => {
+  if (token){
+    const { username, iat, exp } = jwt.verify(token, jwtKey);
+    if (username && iat && exp){
+      return true;
+    }
+    return false;
+  }
+  return false;
+}
 
-//   let jsdom = require('jsdom');
-//   const { JSDOM } = jsdom;
-
-//   const { document } = (new JSDOM('')).window;
-  
-//   // Google's OAuth 2.0 endpoint for requesting an access token
-//   let oauth2Endpoint = 'https://accounts.google.com/o/oauth2/v2/auth';
-//   // Create <form> element to submit parameters to OAuth 2.0 endpoint.
-//   let form = document.createElement('form');
-  
-//   form.setAttribute('method', 'GET'); // Send as a GET request.
-//   form.setAttribute('action', oauth2Endpoint);
-
-//   // Parameters to pass to OAuth 2.0 endpoint.
-//   let params = {'client_id': config.googleKeys.clientId,
-//                 'redirect_uri': config.googleKeys.redirectURI,
-//                 'response_type': 'token',
-//                 'scope': 'https://www.googleapis.com/auth/drive.metadata.readonly',
-//                 'include_granted_scopes': 'true',
-//                 'state': 'pass-through value'};
-
-//   // Add form parameters as hidden input values.
-//   for (let p in params) {
-//     let input = document.createElement('input');
-//     input.setAttribute('type', 'hidden');
-//     input.setAttribute('name', p);
-//     input.setAttribute('value', params[p]);
-//     form.appendChild(input);
-//   }
-
-//   // Add form to page and submit it to open the OAuth 2.0 endpoint.
-//   document.body.appendChild(form);
-  
-//   form.submit();
-// }
+const extractToken = (string) => {
+  return string.split(' ')[1];
+}
 
 const insertUser = (res, username, fullname, email, password) => {
   let user = new User();
@@ -249,7 +245,7 @@ const insertUser = (res, username, fullname, email, password) => {
       res.redirect('/');
     }
     else {
-      console.log('Error while registring the user!');
+      res.send('Error while registring the user!');
     }
   });
 }

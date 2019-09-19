@@ -10,18 +10,16 @@ const userSchema = new Schema({
 });
 
 const codeSchema = new Schema({
-    UserId: String,
-    Body: String,
-    Language: String,
-    Key: String,
-    CreatedOn: Date,
-    Link: String,
-    SharedWith: {
-      Username: String,
-    }  
+  UserId: String,
+  Body: String,
+  Language: String,
+  Key: String,
+  CreatedOn: Date,
+  Link: String,
+  SharedWith: Array
 });
 
 const User = mongoose.model('User', userSchema);
 const Code = mongoose.model('Code', codeSchema);
 
-export {User, Code}
+export { User, Code }

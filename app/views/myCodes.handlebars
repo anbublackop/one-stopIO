@@ -24,7 +24,6 @@
 			<td>{{this.Language}}</td>
 			<td>{{this.Body}}</td>
 			<td><a href="/user/?codeid={{this._id}}">Load into Editor</a></td>
-			<input type="text" style="display:none" name="body" value={{this.Body}}>
 			<td><button class="trigger_popup_fricc btn btn-dark" onclick="shareCode('{{this._id}}')">Share Code</button></td>
 			<td><button class="btn btn-dark" onclick="deleteRecord('{{this._id}}')">Delete</button></td>
 		</tr>
@@ -41,9 +40,9 @@
 
 	function deleteRecord(id){
 		$.ajax({
-			type: 'get',
+			type: 'delete',
 			headers: { 'Authorization': 'Bearer '+localStorage.getItem('token') },
-			url: '/user/delete/?id='+id
+			url: '/user/delete/record/?id='+id
 		}).done(function(data){
 			location.reload();
 		});
@@ -53,9 +52,9 @@
 		$('.hover_bkgr_fricc').show();
 		$('#shareButton').click(()=>{
 			$.ajax({
-				type: 'post',
+				type: 'put',
 				headers: { 'Authorization': 'Bearer '+localStorage.getItem('token') },
-				url: '/user/share/?id='+id,
+				url: '/user/code/shared-with/?id='+id,
 				data: {
 					'usernames': $('#usernamesShare').val()
 				}

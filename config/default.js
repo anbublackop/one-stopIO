@@ -30,6 +30,6 @@ module.exports = {
   googleKeys: {
     clientId: '557973309335-u46v0huba9v3s9ghescrr9uthera13as.apps.googleusercontent.com',
     clientSecret: 'PNK0VmFzNYKYLmjyY26yEb38',
-    redirectURI: 'http://localhost:5000/user/auth/google'
+    redirectURI: 'http://localhost:5000/user/google-profile'
   }
 };

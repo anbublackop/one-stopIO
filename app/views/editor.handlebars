@@ -117,7 +117,7 @@
 <script>
 	$(document).ready(function() {
 		loadEditor();
-		//googleAuth();
+		googleAuth();
 		saveTokenLocally();
 	});
 
@@ -139,11 +139,8 @@
 		let param = /[&?]code=([^&]+)/.exec(location.search);
 		if (param){
 			$.ajax({
-				type: "post",
-				url: "/user/auth/google",
-				data:{
-					'code': param[1]
-				}
+				type: "get",
+				url: "/user/google-profile/?code="+param[1],
 			}).done(function(data){
 				console.log(data);
 			});
@@ -155,7 +152,7 @@
 		if (param){
 			$.ajax({
 				type: "get",
-				url: "/user/filterCode/?key="+param[1]
+				url: "/user/code/?key="+param[1]
 			}).done(function(data){
 				editor.setValue(data);
 			});
@@ -172,7 +169,7 @@
 		const body=editor.getSession().getValue();
 		$.ajax({
 			type: "post",
-			url: "/user/compile_and_run",
+			url: "/user/compileAndRun",
 			data:{
 				'language': $('#select').val(),
 				'stdin': $('#stdin').val(),

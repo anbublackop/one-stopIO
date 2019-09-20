@@ -1,14 +1,10 @@
 {
-  "name": "training-management-system",
+  "name": "one-stop-io",
   "version": "0.0.1",
-  "description": "A Management system that automates some of the daily process during trainings",
+  "description": "An online IDE that can compile and run programs.",
   "main": "server.js",
   "scripts": {
-    "start": "forever start server.js",
-    "stop": "forever stop server.js",
-    "restart": "forever restart server.js",
-    "debug": "node-debug server.js",
-    "preinstall": "npm install -g forever nodemon"
+    "start": "nodemon server.js"
   },
   "devDependencies": {
     "babel-cli": "^6.10.1",
@@ -22,43 +18,36 @@
     "ace-code-editor": "^1.2.3",
     "async": "^2.0.1",
     "bcrypt": "^3.0.6",
-    "bluebird": "^3.4.7",
     "body-parser": "^1.15.2",
     "config": "^1.21.0",
     "cookie-parser": "^1.4.4",
-    "ejs": "^2.7.1",
     "express": "^4.14.0",
     "express-handlebars": "^3.1.0",
     "express-session": "^1.16.2",
     "googleapis": "^43.0.0",
-    "jsdom": "^15.1.1",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.2",
     "method-override": "^2.3.6",
     "mongodb": "^3.3.2",
     "mongoose": "^5.6.11",
     "morgan": "^1.7.0",
-    "passport": "^0.4.0",
-    "passport-google-oauth": "^2.0.0",
     "request": "^2.79.0",
     "winston": "^2.2.0"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://devanshug@bitbucket.org/ketanTechracers/training-automation-jun17.git"
+    "url": "https://gitlab.com/syadav_deqode/one_stopio.git"
   },
   "keywords": [
-    "training",
-    "automation"
+    "ide",
+    "compile",
+    "run"
   ],
-  "author": "Devanshu Gupta",
+  "author": "Siddharth Yadav",
   "contributors": [
-    "Ketan Saxena <ksaxena@grepruby.com>",
-    "Vinay Mishra <vmishra@grepruby.com>",
-    "Shiv Pratap Singh <spsingh@grepruby.com>",
-    "Ayush Tiwari <atiwari@grepruby.com>",
-    "Ankit Gupta <agupta@grepruby.com>"
+    "Siddharth Yadav <syadav@techracers.io>",
+    "Ayush Tiwari <atiwari@techracers.io>"
   ],
   "license": "ISC",
-  "homepage": "https://bitbucket.org/ketanTechracers/training-automation-jun17#readme"
+  "homepage": "https://gitlab.com/syadav_deqode/one_stopio/blob/dev/README.md"
 }

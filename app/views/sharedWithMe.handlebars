@@ -1,0 +1,18 @@
+<table class="table">
+	<thead>
+		<tr>
+			<th>Language</th>
+			<th>Content</th>
+			<th>Open</th>
+		</tr>
+	</thead>
+	<tbody>
+		{{#each codes}}
+		<tr>
+			<td>{{this.Language}}</td>
+			<td>{{this.Body}}</td>
+			<td><a href="/user/?codeid={{this._id}}">Load into Editor</a></td>
+		</tr>
+		{{/each}}
+	</tbody>
+</table>

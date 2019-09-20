@@ -23,7 +23,10 @@
 						<span class="nav-link">Hi {{req.session.user.FullName}}!</span>
 					</li>
 					<li class="nav-item active">
-						<a class="nav-link" href="/user/my_codes/">My Codes<span class="sr-only"></span></a>
+						<a class="nav-link" href="/user/codes">My Codes<span class="sr-only"></span></a>
+					</li>
+					<li class="nav-item active">
+						<a class="nav-link" href="/user/records">Shared With Me<span class="sr-only"></span></a>
 					</li>
 					<li class="nav-item active">
 						<a class="nav-link" href="/user/logout">Logout<span class="sr-only"></span></a>
@@ -36,7 +39,7 @@
 						<a class="nav-link" href="/user/login">Login</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="/user/googleConsent">Google (Sign In)</a>
+						<a class="nav-link" href="/user/google-token">Google (Sign In)</a>
 					</li>
 				{{/if}}
 			</ul>
@@ -47,17 +50,5 @@
 <body>
 	{{{body}}}
 </body>
-
-<script>
-	function showMeMyCodes(){
-		$.ajax({
-			type:'get',
-			headers: { 'Authorization': 'Bearer '+localStorage.getItem('token') },
-			url: '/user/my_codes'
-		}).done(function(data){
-			console.log(data);
-		});
-	}
-</script>
 
 </html>

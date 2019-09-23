@@ -34,7 +34,7 @@ export default class UserController {
     res.render('register');
   }
  
-  static loggingIn(req, res) {
+  static createLogin(req, res) {
     let { username, password } = req.body;
     User.findOne({ Username: username }, (err, user) => {
       if (user) {
@@ -73,18 +73,17 @@ export default class UserController {
     }
   }
 
-  static sharedWithMe(req, res){
+  static shared(req, res){
     const username = req.session.user.Username;
     Code.find({ SharedWith: { "$in" : [username] }  }, (err, docs) => {
       if (docs){
-        console.log(docs);
         res.render('sharedWithMe', {req: req, codes: docs});
       }
       res.render('sharedWithMe', {req: req, codes: null});
     });
   }
 
-  static myCodes(req, res) {
+  static fetchCodes(req, res) {
     if (req.session.user){      
       Code.find({ UserId: req.session.user._id }, (err, code) => {
         if(code){
@@ -98,7 +97,7 @@ export default class UserController {
     }
   }
 
-  static registration(req, res){
+  static createUser(req, res){
     let { username, fullname, email, password } = req.body;
     if (!username || !password || !fullname || !email) {
       res.send("Invalid details!");
@@ -121,7 +120,7 @@ export default class UserController {
     }
   }
 
-  static delete(req, res){
+  static deleteRecord(req, res){
     const authToken = req.headers.authorization;
     if (authToken){
       const token = extractToken(authToken);
@@ -148,7 +147,7 @@ export default class UserController {
     });
   }
 
-  static filterCode(req, res){
+  static getCode(req, res){
     const key = req.query.key;
     Code.findOne({_id: key}, (err, docs) => {
       if (!err){
@@ -193,14 +192,28 @@ export default class UserController {
     res.redirect(auth.urlGoogle());
   }
 
-  static googleAuthRedirect(req, res){
+  static async getProfile(req, res){
     const code = req.query.code;
-    const { id, email, tokens } = fetchUserInfo(code);
-    res.send(id, email, tokens);
+    const { id, email, fullname, tokens } = await fetchUserInfo(code);
+    User.findOne({ GoogleId: id }, (err, doc) => {
+      if (doc) {
+          req.session.user = doc;
+          res.render('editor', { req: req });
+      }
+      if (!doc){
+        let user = new User();
+        user.GoogleId = id;
+        user.Email = email;
+        user.FullName = email;
+        user.save();
+        req.session.user = user;
+        res.render('editor', { req: req });
+      }
+    });
   }
 }
 
-function getGoogleApi(auth) {
+function getGooglePlusApi(auth) {
   return google.plus({ version: 'v1', auth });
 }
 
@@ -214,20 +227,22 @@ async function fetchUserInfo(code){
 
   // add the tokens to the google api so we have access to the account
   aut.setCredentials(tokens);
-
+  
   // connect to google plus - need this to get the user's email
-  const gmail = getGoogleApi(aut);
-  const me = await gmail.people.get({ userId: 'me' });
+  const plus = getGooglePlusApi(aut);
+  const me = await plus.people.get({ userId: 'me' });
 
   // get the google id and email
   const userGoogleId = me.data.id;
   const userGoogleEmail = me.data.emails && me.data.emails.length && me.data.emails[0].value;
-
+  const fullName = me.data.fullName;
+  
   // return so we can login or sign up the user
   return {
         id: userGoogleId,
+        fullname: fullName,
         email: userGoogleEmail,
-        tokens: tokens // you can save these to the user if you ever want to get their details without making them log in again
+        tokens: tokens
       };
 }
 

@@ -169,7 +169,7 @@
 		const body=editor.getSession().getValue();
 		$.ajax({
 			type: "post",
-			url: "/user/compileAndRun",
+			url: "/user/code/compileAndRun",
 			data:{
 				'language': $('#select').val(),
 				'stdin': $('#stdin').val(),

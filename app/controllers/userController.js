@@ -136,17 +136,6 @@ export default class UserController {
     }
   }
 
-  static showAll(req, res) {
-    User.find((err, docs) => {
-      if (!err) {
-        res.render('showUsers', {
-          list: docs
-        });
-      }
-      res.send("Error loading users!");
-    });
-  }
-
   static getCode(req, res){
     const key = req.query.key;
     Code.findOne({_id: key}, (err, docs) => {

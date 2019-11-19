@@ -4,7 +4,7 @@
   "description": "An online IDE that can compile and run programs.",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "node server.js"
   },
   "devDependencies": {
     "babel-cli": "^6.10.1",

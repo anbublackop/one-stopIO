@@ -49,6 +49,9 @@
     "Siddharth Yadav <syadav@techracers.io>",
     "Ayush Tiwari <atiwari@techracers.io>"
   ],
+  "engines": {
+    "node": "12.x"
+  },
   "license": "ISC",
   "homepage": "https://gitlab.com/syadav_deqode/one_stopio/blob/dev/README.md"
 }
